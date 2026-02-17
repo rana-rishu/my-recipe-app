@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useStore } from './store';
 
 const Recipe = () => {
-    const { recipes, addrecipe } = useStore(); 
+    const { recipes, addrecipe , removerecipe } = useStore(); 
 
     const [name, setName] = useState<string>('');
     const [ingredients, setIngredients] = useState<string>('');
@@ -21,6 +21,10 @@ const Recipe = () => {
       setIngredients('');
       setIntructions('');
     };
+
+    const handledelete = (id:number) => {
+      removerecipe(id)
+    }
 
   return (
     <div className="rounded-lg bg-green-600 min-w-[320px] min-h-[80%] m-10 flex flex-col items-center p-10 transition-colors gap-10 overflow-auto">
@@ -59,10 +63,17 @@ const Recipe = () => {
 
         <ul className="flex flex-col w-full max-w-md gap-4">
             {recipes.map((recipe) => (
-              <li key={recipe.id} className="bg-white p-4 rounded-lg shadow-lg text-gray-800">
+              <li key={recipe.id} className="bg-white p-4 rounded-lg shadow-lg text-gray-800 ">
                 <h2 className='font-bold text-xl border-b mb-2'>{recipe.name}</h2>
                 <p className="text-sm"><span className="font-bold">Ingredients:</span> {recipe.ingredients}</p>
                 <p className="text-sm"><span className="font-bold">Instructions:</span> {recipe.intructions}</p>
+                
+                <div className="mt-5">
+                <button 
+                className='px-3 py-1 rounded-lg text-xl bg-red-600 text-white font-bold'
+                onClick={() => handledelete(recipe.id)}
+                >Delete</button>
+                </div>
               </li>
             ))}
         </ul>
